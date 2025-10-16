@@ -1,23 +1,24 @@
 -- ~/.config/nvim/lua/core/autocommands.lua
 
-local augroup = vim.api.nvim_create_augroup("user_config", { clear = true })
+local function augroup(name)
+  return vim.api.nvim_create_augroup("user_" .. name, { clear = true })
+end
 
--- Highlight on yank
-vim.api.nvim_create_autocmd("TextYankPost", {
-  group = augroup,
+-- Auto Reload file if changed outside Vim
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
+  group = augroup("checktime"),
   callback = function()
-    vim.highlight.on_yank({ timeout = 300 })
+    if vim.o.buftype ~= "nofile" then
+      vim.cmd.checktime()
+    end
   end,
 })
 
--- Auto-format using coc-prettier for specific filetypes
-vim.api.nvim_create_autocmd("BufWritePre", {
-  group = augroup,
-  pattern = { "*.js", "*.jsx", "*.ts", "*.tsx", "*.json", "*.css", "*.scss", "*.md", "*.yaml", "*.yml" },
+-- Highlight on yank
+vim.api.nvim_create_autocmd("TextYankPost", {
+  group = augroup("highlight_yank"),
   callback = function()
-    if vim.fn.CocAction("format") then
-      vim.cmd('silent call CocAction("format")')
-    end
+    vim.highlight.on_yank({ timeout = 300 })
   end,
 })
 
@@ -44,16 +45,6 @@ vim.api.nvim_create_autocmd("BufReadPost", {
     local linecount = vim.api.nvim_buf_line_count(ctx.buf)
     if mark[1] > 1 and mark[1] <= linecount then
       pcall(vim.api.nvim_win_set_cursor, 0, mark)
-    end
-  end,
-})
-
--- Auto Reload file if changed outside Vim
-vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, {
-  group = augroup("checktime"),
-  callback = function()
-    if vim.o.buftype ~= "nofile" then
-      vim.cmd.checktime()
     end
   end,
 })
@@ -89,6 +80,15 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- Make man pages unlisted
+vim.api.nvim_create_autocmd("FileType", {
+  group = augroup("man_unlisted"),
+  pattern = "man",
+  callback = function(ctx)
+    vim.bo[ctx.buf].buflisted = false
+  end,
+})
+
 -- Wrap & spellcheck in text-like filetypes
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("wrap_spell"),
@@ -105,6 +105,18 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = { "json", "jsonc", "json5" },
   callback = function()
     vim.opt_local.conceallevel = 0
+  end,
+})
+
+-- Auto-create missing directories on save
+vim.api.nvim_create_autocmd("BufWritePre", {
+  group = augroup("auto_create_dir"),
+  callback = function(ctx)
+    if ctx.match:match("^%w%w+:[\\/][\\/]") then
+      return
+    end
+    local file = vim.loop.fs_realpath(ctx.match) or ctx.match
+    vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
 
@@ -152,20 +164,10 @@ vim.api.nvim_create_autocmd({ "BufEnter", "QuitPre" }, {
   end,
 })
 
--- Disable conceal for JSON
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("json_conceal"),
-  pattern = { "json", "jsonc", "json5" },
+-- Refresh indent highlight when colorscheme changes
+vim.api.nvim_create_autocmd("ColorScheme", {
+  group = augroup("indent_highlight"),
   callback = function()
-    vim.opt_local.conceallevel = 0
-  end,
-})
-
--- Make man pages unlisted
-vim.api.nvim_create_autocmd("FileType", {
-  group = augroup("man_unlisted"),
-  pattern = "man",
-  callback = function(ctx)
-    vim.bo[ctx.buf].buflisted = false
+    vim.api.nvim_set_hl(0, "IndentBlanklineChar", { fg = "#3b4261", nocombine = true })
   end,
 })
