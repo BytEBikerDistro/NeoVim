@@ -1,19 +1,15 @@
 -- ~/.config/nvim/lua/plugins/treesitter.lua
 
 return {
-  "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate",
-  event = { "BufReadPost", "BufNewFile" },
-  opts = {
-    auto_install = true,
-    ensure_installed = {
-      "lua", "vim", "vimdoc", "javascript", "typescript", 
-      "python", "html", "css", "json", "yaml", "markdown"
-    },
-    highlight = { enable = true },
-    indent = { enable = true },
-  },
-  config = function(_, opts)
-    require("nvim-treesitter.configs").setup(opts)
-  end,
+  'nvim-treesitter/nvim-treesitter',
+    build = function()
+      require('nvim-treesitter.install').update({ with_sync = true })
+    end,
+    config = function()
+      require('nvim-treesitter.configs').setup({
+        ensure_installed = { 'lua','vim','vimdoc','javascript','typescript','python','html','css','json' },
+        highlight = { enable = true, additional_vim_regex_highlighting = false },
+        auto_install = true,
+      })
+    end,
 }
