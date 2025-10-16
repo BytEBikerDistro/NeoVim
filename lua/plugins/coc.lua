@@ -25,7 +25,7 @@ return {
     
     -- Code actions and formatting
     vim.keymap.set("n", "<leader>ca", "<Plug>(coc-codeaction)", { desc = "Code action" })
-    vim.keymap.set("n", "<leader>f", "<cmd>CocCommand prettier.formatFile<CR>", { desc = "Format file" })
+    vim.keymap.set("n", "<leader>fm", "<cmd>CocCommand prettier.formatFile<CR>", { desc = "Format file" })
     
     -- Completion
     vim.keymap.set("i", "<Tab>", function()
