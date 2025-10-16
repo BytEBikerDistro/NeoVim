@@ -6,7 +6,7 @@ return {
   config = function()
     -- Coc configuration will be loaded from coc-settings.json
     
-    local keymap = vim.keymap.set
+local keymap = vim.keymap.set
 
 -- Basic Coc keymaps (mirrors your old config)
 keymap('n', 'gd', '<Plug>(coc-definition)', { desc = 'Go to definition' })
