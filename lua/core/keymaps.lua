@@ -15,7 +15,7 @@ local opts = { noremap = true, silent = true }
 
 local function setup_auto_pairs(pairs_list)
     for _, pair in ipairs(pairs_list) do
-        local open, close = pair[2], pair[2]
+        local open, close = pair[1], pair[2]
 
         -- Insert mode
         map('i', open, open .. close .. '<Left>', opts)
