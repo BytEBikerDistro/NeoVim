@@ -1,6 +1,8 @@
 -- ~/.config/nvim/lua/plugins/init.lua
 
 require("lazy").setup({
+  -- Theme (should be loaded first)
+  { import = "plugins.tokyonight" },
 
   -- File explorer
   { import = "plugins.nvim-tree" },
@@ -8,37 +10,33 @@ require("lazy").setup({
   -- Status line
   { import = "plugins.lualine" },
 
+  -- Buffer line
+  { import = "plugins.bufferline" },
+
+  -- Dashboard
+  { import = "plugins.alpha" },
+
   -- Syntax highlighting
   { import = "plugins.treesitter" },
 
   -- Fuzzy finder
   { import = "plugins.telescope" },
 
-  -- Theme
-  { import = "plugins.tokyonight" },
-
--- Dashboard
-  { import = "plugins.alpha" },
-
--- Buffer line
-  { import = "plugins.bufferline" },
-
--- Code Runner
-  { import = "plugins.code_runner" },
-
--- Indentation
-  { import = "plugins.indentscope" },
-
--- Notification
-  { import = "plugins.noice" },
-
--- TODO Comments
-  { import = "plugins.to-do" },
-
--- Teminal Float
-  { import = "plugins.toggleterm" },
-
   -- LSP and completion
   { import = "plugins.coc" },
 
+  -- Code Runner
+  { import = "plugins.code_runner" },
+
+  -- Indentation guides
+  { import = "plugins.indentscope" },
+
+  -- Notification system
+  { import = "plugins.noice" },
+
+  -- TODO Comments
+  { import = "plugins.to-do" },
+
+  -- Floating terminal
+  { import = "plugins.toggleterm" },
 })
