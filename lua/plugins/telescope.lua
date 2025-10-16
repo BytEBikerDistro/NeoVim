@@ -1,26 +1,47 @@
 -- ~/.config/nvim/lua/plugins/telescope.lua
 
 return {
-  "nvim-telescope/telescope.nvim",
-  dependencies = {
-    "nvim-lua/plenary.nvim",
-    "nvim-tree/nvim-web-devicons",
-  },
-  config = function()
-    local telescope = require("telescope")
-    telescope.setup({
-      defaults = {
-        layout_strategy = "horizontal",
-        layout_config = {
-          width = 0.9,
-          height = 0.6,
+    "nvim-telescope/telescope.nvim",
+    dependencies = {
+        "nvim-lua/plenary.nvim",
+        -- Fuzzy Finder Algorithm which requires local dependencies to be built.
+        -- Only load if `make` is available. Make sure you have the system
+        -- requirements installed.
+        {
+            "nvim-telescope/telescope-fzf-native.nvim",
+            build = "make",
+            cond = function()
+                return vim.fn.executable("make") == 1
+            end,
         },
-      },
-    })
-    
-    -- Keymaps
-    vim.keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
-    vim.keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "Find buffers" })
-    vim.keymap.set("n", "<leader>fo", "<cmd>Telescope oldfiles<CR>", { desc = "Find old files" })
-  end,
+        "nvim-telescope/telescope-ui-select.nvim",
+        "nvim-tree/nvim-web-devicons",
+    },
+    cmd = "Telescope",
+    opts = function()
+        local actions = require("telescope.actions")
+        return {
+            defaults = {
+                prompt_prefix = "  ",
+                selection_caret = " ",
+                entry_prefix = " ",
+                sorting_strategy = "ascending",
+                layout_config = {
+                    horizontal = {
+                        prompt_position = "top",
+                        preview_width = 0.55,
+                    },
+                    width = 0.87,
+                    height = 0.80,
+                },
+                mappings = {
+                    n = { ["q"] = actions.close },
+                },
+            },
+            extensions_list = { "themes", "terms" },
+            extensions = {
+                fzf = {},
+            },
+        }
+    end,
 }
