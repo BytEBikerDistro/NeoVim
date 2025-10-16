@@ -26,7 +26,7 @@ return {
 
     -- Code actions, formatting
     keymap('n', '<leader>ca', '<Plug>(coc-codeaction)', { desc = 'Code action' })
-    keymap('n', '<leader>f', '<cmd>CocCommand prettier.formatFile<CR>', { desc = 'Format file' })
+    keymap('n', '<leader>fm', '<cmd>CocCommand prettier.formatFile<CR>', { desc = 'Format file' })
 
     -- Completion <Tab> behavior (preserve your original logic)
     keymap('i', '<Tab>', function()
