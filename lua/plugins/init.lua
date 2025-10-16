@@ -18,7 +18,7 @@ require("lazy").setup({
   { import = "plugins.tokyonight" },
 
 		-- Dashboard
-		{ import = "plugins.alpha" },
+  { import = "plugins.alpha" },
 
 		-- Buffer line
   { import = "plugins.bufferline" },
