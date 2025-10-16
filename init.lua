@@ -22,13 +22,3 @@ require("core.autocommands")
 -- Load plugins
 require("plugins")
 
--- === Lazy.nvim Configuration ===
-  dev = { path = vim.fn.stdpath('config') .. '/local-plugins' },
-  ui = {
-    border = "rounded",
-    icons = {
-      loaded = "✔",
-      not_loaded = "○",
-    },
-  },
-})
