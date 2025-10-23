@@ -23,7 +23,7 @@ require("lazy").setup({
   { import = "plugins.telescope" },
 
   -- LSP and completion
-  { import = "plugins.coc" },
+  -- { import = "plugins.coc" },
 
   -- Code Runner
   { import = "plugins.code_runner" },
