@@ -22,5 +22,5 @@ rm -rf ~/.cache/nvim
 ```
 
 ```bash
-git clone https://github.com/KernelTuxDistro/NeoVim.git ~/.config/nvim && nvim
+git clone https://github.com/Linux-Noobs/NeoVim.git ~/.config/nvim && nvim
 ```
