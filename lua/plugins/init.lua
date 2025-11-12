@@ -22,9 +22,6 @@ require("lazy").setup({
   -- Fuzzy finder
   { import = "plugins.telescope" },
 
-  -- LSP and completion
-  -- { import = "plugins.coc" },
-
   -- Code Runner
   { import = "plugins.code_runner" },
 
